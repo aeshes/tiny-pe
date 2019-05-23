@@ -24,8 +24,10 @@ hMapping dd 0
 hView dd 0
 
 data import
+
   library kernel32, 'kernel32.dll',\
           msvcrt, 'msvcrt.dll'
+
   import kernel32,\
          ExitProcess, 'ExitProcess',\
          CreateFile, 'CreateFileA',\
