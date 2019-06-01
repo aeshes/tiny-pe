@@ -35,7 +35,7 @@ filehdr:
   dw 1       ; NumberOfSections
   dd 0       ; TimeDateStamp UNUSED
   dd 0       ; PointerToSymbolTable UNUSED
-  dd 0       ; NumberOfSymbold UNUSED
+  dd 0       ; NumberOfSymbols UNUSED
   dw 0       ; SizeOfOptionalHeader (including data directories)
   dw 0x103   ; Characteristics (no relocs, executable, 32-bit)
 opthdr:

@@ -36,10 +36,13 @@ proc ValidPE
   push esi
   pushf
   .if word [esi] = "MZ"
-      popf
-      pop esi
-      mov eax, 1
-      ret
+      add esi, [esi + 3Ch]
+      .if word [esi] = "PE"
+          popf
+          pop esi
+          mov eax, 1
+          ret
+      .endif
   .endif
   popf
   pop esi
