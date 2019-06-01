@@ -1,6 +1,9 @@
 format binary
 use32
 
+;
+; DOS header
+;
 mzhdr:
   dw "MZ"       ; e_magic
   dw 0          ; e_cblp     UNUSED
@@ -22,5 +25,18 @@ mzhdr:
   times 10 dw 0 ; e_res2     UNUSED
   dd pesig      ; e_lfanew
 
+;
+; PE header
+;
 pesig:
   dd "PE"
+filehdr:
+  dw 0x014C  ; Machine i386
+  dw 1       ; NumberOfSections
+  dd 0       ; TimeDateStamp UNUSED
+  dd 0       ; PointerToSymbolTable UNUSED
+  dd 0       ; NumberOfSymbold UNUSED
+  dw 0       ; SizeOfOptionalHeader (including data directories)
+  dw 0x103   ; Characteristics (no relocs, executable, 32-bit)
+opthdr:
+  dw 0x10B   ; Magic (PE32)
