@@ -28,6 +28,10 @@ mzhdr:
 ;
 ; PE header
 ;
+
+filealign equ 1
+sectalign equ 1
+
 pesig:
   dd "PE"
 filehdr:
@@ -39,4 +43,45 @@ filehdr:
   dw 0       ; SizeOfOptionalHeader (including data directories)
   dw 0x103   ; Characteristics (no relocs, executable, 32-bit)
 opthdr:
-  dw 0x10B   ; Magic (PE32)
+  dw 0x10B     ; Magic (PE32)
+  db 0         ; MajorLinkerVersion UNUSED
+  db 0         ; MinorLinkerVersion UNUSED
+  dd 0         ; SizeOfCode
+  dd 0         ; SizeOfInitializedData UNUSED
+  dd 0         ; SizeOfUninitializedData UNUSED
+  dd start     ; AddressOfEntryPoint
+  dd code      ; BaseOfCode UNUSED
+  dd 0         ; BaseOfData UNUSED
+  dd 0x400000  ; ImageBase
+  dd sectalign ; SectionAlignment
+  dd filealign ; FileAlignment
+  dw 0         ; MajorOperatingSystemVersion UNUSED
+  dw 0         ; MinorOperatingSystemVersion UNUSED
+  dw 0         ; MajorImageVersion UNUSED
+  dw 0         ; MinorImageVersion UNUSED
+  dw 4         ; MajorSubsystemVersion
+  dw 0         ; MinorSubsystemVersion
+  dd 0         ; Win32VersionValue UNUSED
+  dd 0         ; SizeOfImage
+  dd 0         ; SizeOfHeaders
+  dd 0         ; CheckSum UNUSED
+  dw 2         ; Subsystem (Win32 GUI)
+  dw 0x400     ; DllCharacteristics UNUSED
+  dd 0x100000  ; SizeOfStackReserve UNUSED
+  dd 0x1000    ; SizeOfStackCommit
+  dd 0x1000000 ; SizeOfHeapReserve
+  dd 0x1000    ; SizeOfHeapCommit UNUSED
+  dd 0         ; LoaderFlags UNUSED
+  dd 16        ; NumberOfRvaAndSizes UNUSED
+
+code:
+;
+; Entry Point
+;
+start:
+  push 42
+  pop eax
+  ret
+
+codesize equ $ - code
+filesize equ $ - $$
