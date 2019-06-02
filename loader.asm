@@ -51,11 +51,11 @@ proc ValidPE
 endp
 
 section '.data' readable writeable
-fmt db '%x', 0
-ImageName db 'sample.bin', 0
-hFile dd 0
-hMapping dd 0
-hView dd 0
+  fmt db '%x', 0
+  ImageName db 'sample.exe', 0
+  hFile dd 0
+  hMapping dd 0
+  hView dd 0
 
 data import
 

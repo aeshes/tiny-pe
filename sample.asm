@@ -62,8 +62,8 @@ opthdr:
   dw 4         ; MajorSubsystemVersion
   dw 0         ; MinorSubsystemVersion
   dd 0         ; Win32VersionValue UNUSED
-  dd 0         ; SizeOfImage
-  dd hdrsize   ; SizeOfHeaders
+  dd (filesize + sectalign - 1) and not (sectalign - 1)   ; SizeOfImage
+  dd (hdrsize + filealign -1) and not (filealign - 1)     ; SizeOfHeaders
   dd 0         ; CheckSum UNUSED
   dw 2         ; Subsystem (Win32 GUI)
   dw 0x400     ; DllCharacteristics UNUSED
