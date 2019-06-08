@@ -74,6 +74,10 @@ opthdr:
   dd 0         ; LoaderFlags UNUSED
   dd 16        ; NumberOfRvaAndSizes UNUSED
 
+;
+; Data directories
+;
+  times 16 dd 0, 0
 opthdrsize = $ - opthdr
 hdrsize = $ - $$
 
