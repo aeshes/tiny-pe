@@ -78,7 +78,22 @@ opthdr:
 ; Data directories
 ;
   times 16 dd 0, 0
+
 opthdrsize = $ - opthdr
+
+;
+; PE code section
+;
+  db ".text", 0, 0, 0 ; Name
+  dd codesize         ; VirtualSize
+  dd (hdrsize + sectalign - 1) and not (sectalign - 1)  ; VirtualAddress
+  dd (codesize + filealign - 1) and not (filealign - 1) ; SizeOfRawData
+  dd code ; PointerToRawData
+  dd 0    ; PointerToRelocations UNUSED
+  dd 0    ; PointerToLinenumbers UNUSED
+  dw 0    ; NumberOfRelocations UNUSED
+  dw 0    ; NumberOfLinenumbers
+  dd 0x60000020 ; Characteristics (code, execute, read)
 hdrsize = $ - $$
 
 code:
