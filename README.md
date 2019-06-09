@@ -44,14 +44,16 @@ typedef struct _IMAGE_DOS_HEADER {
 
 За концом old-exe DOS заголовка следует DOS-программа, которая при запуске под дос выводит разочаровывающее сообщение о том, что это программа для винды.
 
+Эта заглушка не является обязательной и мы удалим ее для уменьшения размера програмы.
+
 ### PE заголовок
 Описывает фундаментальные характеристики файла. Определен в WinNT.h как структура следующего вида:
 
 ```
 typedef struct _IMAGE_NT_HEADERS64 {
-    DWORD Signature;
-    IMAGE_FILE_HEADER FileHeader;
-    IMAGE_OPTIONAL_HEADER64 OptionalHeader;
+    DWORD Signature;                        // Сигнатура
+    IMAGE_FILE_HEADER FileHeader;           // Файловый заголовок
+    IMAGE_OPTIONAL_HEADER64 OptionalHeader; // Дополнительный
 } IMAGE_NT_HEADERS64, *PIMAGE_NT_HEADERS64;
 ```
 
