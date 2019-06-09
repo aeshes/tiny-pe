@@ -84,8 +84,44 @@ typedef struct _IMAGE_FILE_HEADER {
 
 `Characteristics` - содержит характеристики файла. Например, exe это или dll, 32-битная это программа или 64-битная.
 
-#### Опциональный заголовок
-Описывает структуру страничного образа более детально (базовый адрес загрузки, размер образа, степень выравнивания, data directory и многое другое). Размер опционального заголовка хранится в файловом заголовке, так что две этих структуры очень тесно связаны.
+#### Дополнительный заголовок
+Обязательный подзаголовок PE-файла. Описывает структуру страничного образа более детально и содержит информацию, необходимую для загрузки файла. Имеет два формата PE32+ для 64-битных программ и PE32 для 32-битных.
+
+```
+typedef struct _IMAGE_OPTIONAL_HEADER {
+  WORD                 Magic;
+  BYTE                 MajorLinkerVersion;
+  BYTE                 MinorLinkerVersion;
+  DWORD                SizeOfCode;
+  DWORD                SizeOfInitializedData;
+  DWORD                SizeOfUninitializedData;
+  DWORD                AddressOfEntryPoint;
+  DWORD                BaseOfCode;
+  DWORD                BaseOfData;
+  DWORD                ImageBase;
+  DWORD                SectionAlignment;
+  DWORD                FileAlignment;
+  WORD                 MajorOperatingSystemVersion;
+  WORD                 MinorOperatingSystemVersion;
+  WORD                 MajorImageVersion;
+  WORD                 MinorImageVersion;
+  WORD                 MajorSubsystemVersion;
+  WORD                 MinorSubsystemVersion;
+  DWORD                Win32VersionValue;
+  DWORD                SizeOfImage;
+  DWORD                SizeOfHeaders;
+  DWORD                CheckSum;
+  WORD                 Subsystem;
+  WORD                 DllCharacteristics;
+  DWORD                SizeOfStackReserve;
+  DWORD                SizeOfStackCommit;
+  DWORD                SizeOfHeapReserve;
+  DWORD                SizeOfHeapCommit;
+  DWORD                LoaderFlags;
+  DWORD                NumberOfRvaAndSizes;
+  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+} IMAGE_OPTIONAL_HEADER32, *PIMAGE_OPTIONAL_HEADER32;
+```
 
 #### Директории данных
 Важная часть опционального заголовка - директории данные. Они представляют собой массив указателей на подчиненные структуры данных: таблицы экспорта и импорта, отладочная информация, релоки и др.
