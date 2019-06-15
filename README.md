@@ -138,6 +138,44 @@ typedef struct _IMAGE_OPTIONAL_HEADER {
 
 В Windows NT существует недокументированная возможность отключения выравнивания, основанная на том, что загрузку прикладных exe/dll и системных драйверов выполняет один и тот же загрузчик. Если SectionAlignment == FileAlignment, то последнее поле может принимать любое значение, представляющее собой степень двойки (например, 0x20 или 1). Такие файлы называются невыровненными. На них налагается жесткое требование: дисковый образ и образ в памяти должны совпадать.
 
+* `SizeOfImage` - это черытехбайтовое поле содержит размер (в байтах) загруженного исполняемого файла в памяти.
+
+* `SizeOfHeaders` - четырехбайтовое поле, которое содержит размер (в байтах) заголовков исполняемого файла в памяти.
+
+* `Subsystem` - двухбайтовое поле, которое содержит тип подсистемы (GUI, CLI, Driver).
+
+* `NumberOfRvaAndSizes` - четырехбайтовое поле, содержащее число каталогов в массве каталогов. По умолчанию равно 16.
+
+* `DataDirectory` - массв каталогов, который содержит информацию о каталогах. Их число определено в поле `NumberOfRvaAndSizes` (по умолчанию, и почти всегда, 16). Каждая запись о каталоге хранит относительный виртуальный адрес (относительно `ImageBase`) и размер какого-либо каталога. Каждый каталог имеет свой индекс в этом массиве. Эти индексы определены как константы в хедерах Windows.
+
+Вот структура каждого элемента этого массива:
+```
+typedef struct _IMAGE_DATA_DIRECTORY {
+  DWORD VirtualAddress;
+  DWORD Size;
+} IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;
+```
+
+А вот порядковые номера стандартных каталогов:
+```
+#define IMAGE_DIRECTORY_ENTRY_EXPORT              0
+#define IMAGE_DIRECTORY_ENTRY_IMPORT              1
+#define IMAGE_DIRECTORY_ENTRY_RESOURCE            2
+#define IMAGE_DIRECTORY_ENTRY_EXCEPTION           3
+#define IMAGE_DIRECTORY_ENTRY_SECURITY            4
+#define IMAGE_DIRECTORY_ENTRY_BASERELOC           5
+#define IMAGE_DIRECTORY_ENTRY_DEBUG               6
+//      IMAGE_DIRECTORY_ENTRY_COPYRIGHT           7
+#define IMAGE_DIRECTORY_ENTRY_ARCHITECTURE        7
+#define IMAGE_DIRECTORY_ENTRY_GLOBALPTR           8
+#define IMAGE_DIRECTORY_ENTRY_TLS                 9
+#define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG         10
+#define IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT        11
+#define IMAGE_DIRECTORY_ENTRY_IAT                 12
+#define IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT        13
+#define IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR      14
+```
+
 
 #### Директории данных
 Важная часть опционального заголовка - директории данные. Они представляют собой массив указателей на подчиненные структуры данных: таблицы экспорта и импорта, отладочная информация, релоки и др.
