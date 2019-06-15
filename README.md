@@ -184,3 +184,32 @@ typedef struct _IMAGE_DATA_DIRECTORY {
 
 #### Таблица секций
 Следует сразу после опционального заголовка и имеет весьма условную принадлежность. Ни одному из заголовков она не принадлежит и является самостоятельным заголовком.
+
+Здесь содержится различная информация о секциях. Их количество определено в поле `NumberOfSections`. Таблица секций реализована как массив структур типа `IMAGE_SECTION_HEADER`.
+
+```
+typedef struct _IMAGE_SECTION_HEADER {
+  BYTE  Name[IMAGE_SIZEOF_SHORT_NAME];
+  union {
+    DWORD PhysicalAddress;
+    DWORD VirtualSize;
+  } Misc;
+  DWORD VirtualAddress;
+  DWORD SizeOfRawData;
+  DWORD PointerToRawData;
+  DWORD PointerToRelocations;
+  DWORD PointerToLinenumbers;
+  WORD  NumberOfRelocations;
+  WORD  NumberOfLinenumbers;
+  DWORD Characteristics;
+} IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;
+```
+
+Подробное описание полей:
+
+* `Name` - поле размером 8 байт, содержит название секции в ASCII-кодировке.
+* `VirtualSize` - содержит размер (в байтех) секции в виртуальной памяти.
+* `VirtualAddress` - четырехбайтовое поле, которое содержит относительный адрес секции в виртуальной памяти.
+* `SizeOfRawData` - содержит размер секции в файле.
+* `PointerToRawData` - указатель на данные секции в файле.
+* `Characteristics` - четырехбайтовое поле, содержащее атрибуты секции. Например, права чтения, записи и исполнения.
